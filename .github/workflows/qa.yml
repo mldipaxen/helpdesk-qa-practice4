@@ -1,19 +1,26 @@
-name: HelpDesk autotests
+name: QA Tests
+
 on:
   push:
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install dependencies
-        run: npm install
-      - name: Unit and integration tests
-        run: npm test
-      # Самостоятельное задание: добавить запуск Cypress E2E.
-      # Сначала запустите тестовый сервер и дождитесь /api/health.
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+        
+    - name: Run Jest Tests (Unit + Integration)
+      run: npm test
